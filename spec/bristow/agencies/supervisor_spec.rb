@@ -156,7 +156,7 @@ RSpec.describe Bristow::Agencies::Supervisor do
             id: "chatcmpl-123",
             object: "chat.completion",
             created: Time.now.to_i,
-            model: "gpt-3.5-turbo-0613",
+            model: "gpt-5.6-terra",
             choices: [
               {
                 index: 0,
