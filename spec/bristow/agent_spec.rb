@@ -28,7 +28,7 @@ RSpec.describe Bristow::Agent do
       agent_name "TestAgent"
       description "A test agent"
       system_message "You are a test agent that helps with testing. When asked to test something, always use the test_function."
-      model "gpt-3.5-turbo"
+      model "gpt-5.6-terra"
       functions [test_function]
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe Bristow::Agent do
 
   describe ".model" do
     it "sets and gets the model" do
-      expect(test_agent.model).to eq("gpt-3.5-turbo")
+      expect(test_agent.model).to eq("gpt-5.6-terra")
     end
 
     it "defaults to configuration default model" do
@@ -89,10 +89,10 @@ RSpec.describe Bristow::Agent do
 
     it "sends messages to OpenAI and streams the response" do
       chunks = [
-        { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", content: "Hello" } }] },
-        { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { content: "! I'm" } }] },
-        { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { content: " here to help." } }] },
-        { id: "4", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
+        { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", content: "Hello" } }] },
+        { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { content: "! I'm" } }] },
+        { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { content: " here to help." } }] },
+        { id: "4", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
       ]
 
       stub_request(:post, "https://api.openai.com/v1/chat/completions")
@@ -125,10 +125,10 @@ RSpec.describe Bristow::Agent do
 
     it "accepts a string message" do
       chunks = [
-        { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", content: "Hi" } }] },
-        { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { content: " there" } }] },
-        { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { content: "! How can I help?" } }] },
-        { id: "4", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
+        { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", content: "Hi" } }] },
+        { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { content: " there" } }] },
+        { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { content: "! How can I help?" } }] },
+        { id: "4", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
       ]
 
       stub_request(:post, "https://api.openai.com/v1/chat/completions")
@@ -161,9 +161,9 @@ RSpec.describe Bristow::Agent do
 
     it "updates chat history" do
       chunks = [
-        { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", content: "Test" } }] },
-        { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { content: " response" } }] },
-        { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
+        { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", content: "Test" } }] },
+        { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { content: " response" } }] },
+        { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
       ]
 
       stub_request(:post, "https://api.openai.com/v1/chat/completions")
@@ -246,9 +246,9 @@ RSpec.describe Bristow::Agent do
 
       it "raises error when function is not found" do
         chunks = [
-          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", function_call: { name: "nonexistent_function" } } }] },
-          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { function_call: { arguments: '{}' } } }] },
-          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "function_call" }] }
+          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", function_call: { name: "nonexistent_function" } } }] },
+          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { function_call: { arguments: '{}' } } }] },
+          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "function_call" }] }
         ]
 
         stub_request(:post, "https://api.openai.com/v1/chat/completions")
@@ -273,16 +273,16 @@ RSpec.describe Bristow::Agent do
       it "handles function calls from the model" do
         # First request returns a function call
         function_call_chunks = [
-          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", function_call: { name: "test_function" } } }] },
-          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { function_call: { arguments: '{"param":' } } }] },
-          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { function_call: { arguments: '"example"}' } } }] },
-          { id: "4", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "function_call" }] }
+          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", function_call: { name: "test_function" } } }] },
+          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { function_call: { arguments: '{"param":' } } }] },
+          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { function_call: { arguments: '"example"}' } } }] },
+          { id: "4", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "function_call" }] }
         ]
 
         # Second request returns a regular message
         final_response_chunks = [
-          { id: "5", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", content: "Function call completed" } }] },
-          { id: "6", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
+          { id: "5", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", content: "Function call completed" } }] },
+          { id: "6", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
         ]
 
         # Stub first request that returns function call
@@ -345,9 +345,9 @@ RSpec.describe Bristow::Agent do
 
       it "handles empty deltas in streaming" do
         chunks = [
-          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {} }] },
-          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", content: "Hello" } }] },
-          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
+          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {} }] },
+          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", content: "Hello" } }] },
+          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
         ]
 
         stub_request(:post, "https://api.openai.com/v1/chat/completions")
@@ -373,9 +373,9 @@ RSpec.describe Bristow::Agent do
 
       it "handles missing choices in streaming" do
         chunks = [
-          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo" },
-          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: { role: "assistant", content: "Hello" } }] },
-          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-3.5-turbo", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
+          { id: "1", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra" },
+          { id: "2", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: { role: "assistant", content: "Hello" } }] },
+          { id: "3", object: "chat.completion.chunk", created: Time.now.to_i, model: "gpt-5.6-terra", choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }
         ]
 
         stub_request(:post, "https://api.openai.com/v1/chat/completions")

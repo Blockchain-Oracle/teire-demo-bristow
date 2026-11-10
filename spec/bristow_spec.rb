@@ -13,11 +13,11 @@ RSpec.describe Bristow do
     it "allows setting configuration values" do
       Bristow.configure do |config|
         config.openai_api_key = "test-key"
-        config.model = "gpt-4"
+        config.model = "gpt-5.6-sol"
       end
 
       expect(Bristow.configuration.openai_api_key).to eq("test-key")
-      expect(Bristow.configuration.model).to eq("gpt-4")
+      expect(Bristow.configuration.model).to eq("gpt-5.6-sol")
     end
 
     it "resets the client when api key is updated" do
@@ -29,7 +29,7 @@ RSpec.describe Bristow do
     it "resets configuration to default values" do
       Bristow.configure do |config|
         config.openai_api_key = "test-key"
-        config.model = "gpt-4"
+        config.model = "gpt-5.6-sol"
       end
 
       Bristow.reset_configuration!
